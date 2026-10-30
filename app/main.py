@@ -89,6 +89,10 @@ app.include_router(deals_router)
 app.include_router(settings_router)
 app.include_router(stats_router)
 
+@app.get("/health")
+async def health_check():
+    return {"status": "ok", "agent": settings.AGENT_NAME, "business": settings.BUSINESS_NAME}
+
 @app.post("/api/scan_now")
 async def trigger_scan():
     """Trigger an instant lead hunting cycle immediately"""

@@ -1,3 +1,13 @@
+---
+title: OmniLead 24/7 Agent
+emoji: 🎯
+colorFrom: red
+colorTo: yellow
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # OmniLead 24/7 | Autonomous Lead Hunter & Deal Closer
 
 An end-to-end autonomous agent designed to run **24/7**, hunting for high-intent client opportunities in **website creation**, **web development**, and **social media automation**, reaching out with personalized audits, negotiating within strict profit guardrails, and closing orders with payment links.
