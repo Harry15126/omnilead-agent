@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniLead 24/7 | Autonomous Sales Closer & Lead Hunter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- TOP NAVIGATION BAR -->
+        <header class="top-nav">
+            <div class="brand-group">
+                <div class="brand-icon">
+                    <span class="icon-pulse"></span>
+                    ⚡
+                </div>
+                <div>
+                    <h1 class="brand-title">OmniLead <span>AI</span></h1>
+                    <p class="brand-subtitle">Autonomous 24/7 Lead Hunter & Deal Closer</p>
+                </div>
+            </div>
+
+            <div class="system-status-indicator">
+                <div class="status-badge" id="systemStatusBadge">
+                    <span class="pulse-dot"></span>
+                    <span id="systemStatusText">ACTIVE 24/7</span>
+                </div>
+                <div class="ws-badge" id="wsStatusBadge">Live Stream</div>
+            </div>
+
+            <div class="top-actions">
+                <button class="btn btn-primary" id="btnScanNow">
+                    <span class="btn-icon">🔍</span>
+                    <span>Scan Now</span>
+                </button>
+                <button class="btn btn-secondary" id="btnAddLead">
+                    <span class="btn-icon">➕</span>
+                    <span>Add Lead</span>
+                </button>
+                <button class="btn btn-secondary" id="btnOpenTelegram" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;">
+                    <span class="btn-icon">📱</span>
+                    <span>Telegram Alerts</span>
+                </button>
+                <button class="btn btn-secondary" id="btnOpenEmail" style="border-color: rgba(16, 185, 129, 0.4); color: #34d399;">
+                    <span class="btn-icon">📧</span>
+                    <span>Zoho Email</span>
+                </button>
+                <button class="btn btn-secondary" id="btnOpenPaypal" style="border-color: rgba(245, 158, 11, 0.4); color: #fbbf24;">
+                    <span class="btn-icon">💳</span>
+                    <span>PayPal</span>
+                </button>
+                <button class="btn btn-icon-only" id="btnOpenSettings" title="Settings & Credentials">
+                    ⚙️
+                </button>
+            </div>
+        </header>
+
+        <!-- KPI HERO METRICS -->
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-label">Leads Discovered</span>
+                    <span class="kpi-icon">🎯</span>
+                </div>
+                <div class="kpi-value" id="kpiTotalLeads">0</div>
+                <div class="kpi-footer">Across Reddit, Maps & Socials</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-label">Pitched / Contacted</span>
+                    <span class="kpi-icon">✉️</span>
+                </div>
+                <div class="kpi-value" id="kpiContacted">0</div>
+                <div class="kpi-footer">Personalized Audit Outreach</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-label">In Negotiation</span>
+                    <span class="kpi-icon">💬</span>
+                </div>
+                <div class="kpi-value" id="kpiNegotiating">0</div>
+                <div class="kpi-footer">Active AI Discussions</div>
+            </div>
+
+            <div class="kpi-card gold-glow">
+                <div class="kpi-header">
+                    <span class="kpi-label">Deals Closed</span>
+                    <span class="kpi-icon">🏆</span>
+                </div>
+                <div class="kpi-value text-accent" id="kpiDeals">0</div>
+                <div class="kpi-footer" id="kpiConversionRate">0% Close Rate</div>
+            </div>
+
+            <div class="kpi-card emerald-glow">
+                <div class="kpi-header">
+                    <span class="kpi-label">Secured Revenue</span>
+                    <span class="kpi-icon">💰</span>
+                </div>
+                <div class="kpi-value text-success" id="kpiRevenue">$0</div>
+                <div class="kpi-footer">Ready for Fulfillment</div>
+            </div>
+        </section>
+
+        <!-- MAIN WORKSPACE -->
+        <main class="main-workspace">
+            <!-- LEFT PANEL: TABS & CONTENT -->
+            <div class="left-panel">
+                <div class="panel-tabs">
+                    <button class="tab-btn active" data-tab="pipeline">📊 Pipeline CRM</button>
+                    <button class="tab-btn" data-tab="deals">🏆 Won Orders & Deals</button>
+                    <button class="tab-btn" data-tab="simulator">🤖 Closer Simulator</button>
+                </div>
+
+                <!-- TAB 1: PIPELINE CRM -->
+                <div class="tab-content active" id="tab-pipeline">
+                    <div class="filter-bar">
+                        <div class="filter-group">
+                            <label>Status:</label>
+                            <select id="filterStatus" class="select-input">
+                                <option value="all">All Stages</option>
+                                <option value="discovered">Discovered</option>
+                                <option value="scored">Scored</option>
+                                <option value="contacted">Contacted</option>
+                                <option value="negotiating">Negotiating</option>
+                                <option value="deal_won">Deal Won</option>
+                                <option value="paid">Paid</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Source:</label>
+                            <select id="filterSource" class="select-input">
+                                <option value="all">All Channels</option>
+                                <option value="local_business">Google Maps / Local</option>
+                                <option value="reddit">Reddit Buyer Intent</option>
+                                <option value="social">X / Twitter / Social</option>
+                                <option value="manual">Manual</option>
+                            </select>
+                        </div>
+                        <div class="search-group">
+                            <input type="text" id="searchInput" class="text-input" placeholder="Search business or client...">
+                        </div>
+                    </div>
+
+                    <div class="leads-container" id="leadsContainer">
+                        <!-- Populated dynamically by app.js -->
+                        <div class="loading-state">Loading real-time leads...</div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: WON DEALS & ORDERS -->
+                <div class="tab-content" id="tab-deals">
+                    <div class="deals-header">
+                        <h2>Closed Deals & Orders Ready for Delivery</h2>
+                        <p>When clients accept the agreement and make payment, they appear here with the full project brief.</p>
+                    </div>
+                    <div class="deals-container" id="dealsContainer">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- TAB 3: CLOSER SIMULATOR PLAYGROUND -->
+                <div class="tab-content" id="tab-simulator">
+                    <div class="simulator-layout">
+                        <div class="sim-sidebar">
+                            <h3>Test Prospect</h3>
+                            <p class="sim-desc">Simulate how your AI responds to price objections, timeline questions, and payment requests.</p>
+                            
+                            <div class="form-group">
+                                <label>Target Lead / Client:</label>
+                                <select id="simLeadSelect" class="select-input">
+                                    <option value="">Select a lead...</option>
+                                </select>
+                            </div>
+
+                            <div class="sim-lead-card" id="simLeadCard">
+                                <div class="sim-lead-title" id="simLeadTitle">Apex Dentistry</div>
+                                <div class="sim-lead-detail" id="simLeadPackage">Package: Starter Landing Page ($499)</div>
+                                <div class="sim-lead-detail" id="simLeadFloor">Min Negotiation Floor: $399</div>
+                            </div>
+
+                            <div class="quick-prompts">
+                                <label>Quick Client Inquiries:</label>
+                                <button class="btn-chip" data-msg="Hey, I like your pitch. But my budget is only $350. Can you do it?">💸 "Can you do $350?"</button>
+                                <button class="btn-chip" data-msg="How fast can you deliver this website? We have an event next week.">⏱️ "How fast can you deliver?"</button>
+                                <button class="btn-chip" data-msg="Can I see some examples of websites you've built before?">🎨 "Can I see past work?"</button>
+                                <button class="btn-chip" data-msg="Sounds great! Please send me the payment link so we can start.">💳 "Send me the invoice link!"</button>
+                            </div>
+                        </div>
+
+                        <div class="sim-chat-area">
+                            <div class="chat-messages" id="simChatMessages">
+                                <div class="chat-bubble ai">
+                                    <div class="bubble-header">🤖 OmniLead Closer Brain</div>
+                                    <div class="bubble-text">Hi! Select a lead and test how I negotiate within your profit bounds and close deals.</div>
+                                </div>
+                            </div>
+                            <div class="chat-input-bar">
+                                <input type="text" id="simInputMessage" class="text-input" placeholder="Type a message as the client (e.g. 'Can you do $400?')...">
+                                <button class="btn btn-primary" id="btnSendSimMessage">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL: 24/7 LIVE TERMINAL & LOGS -->
+            <div class="right-panel">
+                <div class="terminal-header">
+                    <div class="terminal-title">
+                        <span class="terminal-dot green"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot red"></span>
+                        <span>24/7 Autonomous Activity Stream</span>
+                    </div>
+                    <div class="terminal-actions">
+                        <label class="sound-toggle" title="Play chime on won deal">
+                            <input type="checkbox" id="soundToggle" checked>
+                            <span>🔔 Sound</span>
+                        </label>
+                        <button class="btn-text" id="btnClearLogs">Clear</button>
+                    </div>
+                </div>
+
+                <div class="terminal-body" id="terminalLogs">
+                    <div class="log-entry info">
+                        <span class="log-time">[Init]</span>
+                        <span class="log-tag system">SYSTEM</span>
+                        <span class="log-msg">OmniLead 24/7 Autonomous Closer initialized. Listening for leads...</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- LEAD DETAIL & CONVERSATION MODAL -->
+    <div class="modal-overlay" id="leadModal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <div>
+                    <h2 id="modalLeadTitle">Lead Deep Dive</h2>
+                    <span class="modal-badge" id="modalLeadBadge">Scored</span>
+                </div>
+                <button class="modal-close" id="btnCloseLeadModal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalLeadBody">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- SETTINGS & CREDENTIALS MODAL -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⚙️ Settings & Credentials</h2>
+                <button class="modal-close" id="btnCloseSettingsModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h3>🤖 Autonomous Operations</h3>
+                    <div class="form-row toggle-row">
+                        <label for="setAutonomous">
+                            <strong>Fully Autonomous Mode</strong>
+                            <p class="form-desc">When enabled, the agent sends outreach and negotiates replies automatically without waiting for manual approval.</p>
+                        </label>
+                        <input type="checkbox" id="setAutonomous" class="toggle-switch">
+                    </div>
+                    <div class="form-group">
+                        <label>Minimum Lead Score to Contact (0 - 100):</label>
+                        <input type="number" id="setMinScore" class="text-input" min="40" max="95">
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>🏢 Business Identity</h3>
+                    <div class="form-group">
+                        <label>Business Name:</label>
+                        <input type="text" id="setBusinessName" class="text-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Business Email:</label>
+                        <input type="email" id="setBusinessEmail" class="text-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Business Website:</label>
+                        <input type="text" id="setBusinessWebsite" class="text-input">
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>📧 Email Integration (SMTP for Outreach)</h3>
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label>SMTP Host:</label>
+                            <input type="text" id="setSmtpHost" class="text-input" placeholder="smtp.gmail.com">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label>Port:</label>
+                            <input type="number" id="setSmtpPort" class="text-input" placeholder="587">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>SMTP User / Email:</label>
+                        <input type="text" id="setSmtpUser" class="text-input" placeholder="your-email@domain.com">
+                    </div>
+                    <div class="form-group">
+                        <label>SMTP Password / App Password:</label>
+                        <input type="password" id="setSmtpPassword" class="text-input" placeholder="••••••••••••">
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; align-items: center; margin-top: 0.35rem;">
+                        <button type="button" class="btn btn-secondary" id="btnTestSmtp" style="padding: 0.35rem 0.85rem; font-size: 0.75rem;">
+                            📧 Send Test Email
+                        </button>
+                        <span id="smtpTestStatus" style="font-size: 0.75rem; color: var(--text-secondary);"></span>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>💳 Payment & Invoicing</h3>
+                    <div class="form-group">
+                        <label>Stripe Payment Link Base URL:</label>
+                        <input type="text" id="setStripeLink" class="text-input" placeholder="https://buy.stripe.com/...">
+                    </div>
+                    <div class="form-group">
+                        <label>PayPal.me Link:</label>
+                        <input type="text" id="setPaypalLink" class="text-input" placeholder="https://paypal.me/yourname">
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>🔔 Notifications (Deal Won Alerts)</h3>
+                    <div class="form-group">
+                        <label>Discord Webhook URL:</label>
+                        <input type="text" id="setDiscordUrl" class="text-input" placeholder="https://discord.com/api/webhooks/...">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label>Telegram Bot Token:</label>
+                            <input type="text" id="setTgToken" class="text-input" placeholder="123456:ABC-DEF...">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label>Chat ID:</label>
+                            <input type="text" id="setTgChatId" class="text-input" placeholder="987654321">
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; align-items: center; margin-top: 0.35rem;">
+                        <button type="button" class="btn btn-secondary" id="btnTestTelegram" style="padding: 0.35rem 0.85rem; font-size: 0.75rem;">
+                            📱 Send Test Telegram Ping
+                        </button>
+                        <span id="tgTestStatus" style="font-size: 0.75rem; color: var(--text-secondary);"></span>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>🧠 AI Provider Key</h3>
+                    <div class="form-group">
+                        <label>Google Gemini API Key (or OpenAI Key):</label>
+                        <input type="password" id="setGeminiKey" class="text-input" placeholder="AIzaSy... (Leave empty to use built-in neural heuristics)">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btnCancelSettings">Cancel</button>
+                <button class="btn btn-primary" id="btnSaveSettings">Save Configuration</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD CUSTOM LEAD MODAL -->
+    <div class="modal-overlay" id="addLeadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>➕ Add Targeted Lead</h2>
+                <button class="modal-close" id="btnCloseAddLeadModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Business / Project Name:</label>
+                    <input type="text" id="newLeadBusiness" class="text-input" placeholder="e.g. Apex Health Clinic">
+                </div>
+                <div class="form-group">
+                    <label>Contact Name:</label>
+                    <input type="text" id="newLeadContact" class="text-input" placeholder="e.g. Dr. Robert Miller">
+                </div>
+                <div class="form-group">
+                    <label>Contact Email:</label>
+                    <input type="email" id="newLeadEmail" class="text-input" placeholder="contact@apexclinic.com">
+                </div>
+                <div class="form-group">
+                    <label>Niche / Industry:</label>
+                    <input type="text" id="newLeadNiche" class="text-input" placeholder="Healthcare / Local Service">
+                </div>
+                <div class="form-group">
+                    <label>Recommended Package:</label>
+                    <select id="newLeadPackage" class="select-input">
+                        <option value="starter_landing_page">High-Converting Landing Page ($499)</option>
+                        <option value="full_business_website">Complete Modern Business Website ($1,200)</option>
+                        <option value="social_automation_suite">Social Media Automation Engine ($650)</option>
+                        <option value="growth_bundle">All-In-One Growth Bundle ($1,650)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Current Status / Web Audit Notes:</label>
+                    <textarea id="newLeadAudit" class="text-input" rows="3" placeholder="No mobile site, lacks online booking form."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btnCancelAddLead">Cancel</button>
+                <button class="btn btn-primary" id="btnSubmitAddLead">Create & Qualify Lead</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELEGRAM QUICK-CONNECT MODAL -->
+    <div class="modal-overlay" id="telegramModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📱 Connect Telegram Alerts</h2>
+                <button class="modal-close" id="btnCloseTelegramModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 12px; padding: 1rem; font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
+                    <strong style="color: #38bdf8; display: block; margin-bottom: 0.35rem;">⚡ 2-Minute Bot Setup:</strong>
+                    1. On Telegram, message <a href="https://t.me/BotFather" target="_blank" style="color: #38bdf8; font-weight: 700;">@BotFather</a> and send: <code>/newbot</code><br>
+                    2. Choose a name & username (e.g. <code>my_omnilead_bot</code>). Copy the <strong>Bot Token</strong>.<br>
+                    3. Open your new bot and click <strong>"Start"</strong>.<br>
+                    4. Message <a href="https://t.me/userinfobot" target="_blank" style="color: #38bdf8; font-weight: 700;">@userinfobot</a> to get your numeric <strong>Chat ID</strong>.
+                </div>
+
+                <div class="form-group" style="margin-top: 0.5rem;">
+                    <label>Telegram Bot Token:</label>
+                    <input type="text" id="tgModalToken" class="text-input" placeholder="e.g. 7123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ">
+                </div>
+
+                <div class="form-group">
+                    <label>Your Telegram Chat ID:</label>
+                    <input type="text" id="tgModalChatId" class="text-input" placeholder="e.g. 123456789">
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
+                    <button type="button" class="btn btn-secondary" id="btnModalTestTelegram" style="justify-content: center; padding: 0.75rem 1rem; border-color: rgba(56, 189, 248, 0.4); color: #38bdf8; font-size: 0.9rem; font-weight: 700;">
+                        📱 Send Test Telegram Ping
+                    </button>
+                    <div id="tgModalStatus" style="font-size: 0.82rem; text-align: center; min-height: 20px;"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btnCancelTelegramModal">Cancel</button>
+                <button class="btn btn-primary" id="btnSaveTelegramModal">Save & Enable Telegram Alerts</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ZOHO EMAIL CONNECTION MODAL -->
+    <div class="modal-overlay" id="emailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📧 Connect Zoho Business Email</h2>
+                <button class="modal-close" id="btnCloseEmailModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 12px; padding: 1rem; font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
+                    <strong style="color: #34d399; display: block; margin-bottom: 0.35rem;">⚡ 1-Minute Zoho App Password:</strong>
+                    1. Log in to <a href="https://accounts.zoho.com" target="_blank" style="color: #34d399; font-weight: 700;">accounts.zoho.com</a> (or <a href="https://accounts.zoho.in" target="_blank" style="color: #34d399; font-weight: 700;">accounts.zoho.in</a>).<br>
+                    2. Go to <strong>Security</strong> &rarr; <strong>Application-Specific Passwords</strong>.<br>
+                    3. Click <strong>Generate New Password</strong>, name it <code>OmniLead</code>, and copy the code.
+                </div>
+
+                <div class="form-row" style="margin-top: 0.5rem;">
+                    <div class="form-group flex-2">
+                        <label>SMTP Host:</label>
+                        <input type="text" id="emailModalHost" class="text-input" value="smtp.zoho.com" placeholder="smtp.zoho.com">
+                    </div>
+                    <div class="form-group flex-1">
+                        <label>Port:</label>
+                        <input type="number" id="emailModalPort" class="text-input" value="587" placeholder="587">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Your Zoho Business Email:</label>
+                    <input type="email" id="emailModalUser" class="text-input" placeholder="e.g. contact@yourbusiness.com">
+                </div>
+
+                <div class="form-group">
+                    <label>Zoho App Password:</label>
+                    <input type="password" id="emailModalPassword" class="text-input" placeholder="xxxx-xxxx-xxxx-xxxx">
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
+                    <button type="button" class="btn btn-secondary" id="btnModalTestEmail" style="justify-content: center; padding: 0.75rem 1rem; border-color: rgba(16, 185, 129, 0.4); color: #34d399; font-size: 0.9rem; font-weight: 700;">
+                        📧 Send Test Email to My Inbox
+                    </button>
+                    <div id="emailModalStatus" style="font-size: 0.82rem; text-align: center; min-height: 20px;"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btnCancelEmailModal">Cancel</button>
+                <button class="btn btn-primary" id="btnSaveEmailModal">Save & Activate Live Email Outreach</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAYPAL CONNECT & TEST MODAL -->
+    <div class="modal-overlay" id="paypalModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>💳 Connect & Test PayPal</h2>
+                <button class="modal-close" id="btnClosePaypalModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 12px; padding: 1rem; font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
+                    <strong style="color: #fbbf24; display: block; margin-bottom: 0.35rem;">⚡ How Clients Pay You via PayPal:</strong>
+                    Enter your PayPal.me link or PayPal username below. When the agent closes a deal, it automatically attaches the exact dollar amount (e.g. <code>https://paypal.me/yourname/150USD</code>) so the client can pay with card or PayPal in 1 click!
+                </div>
+
+                <div class="form-group" style="margin-top: 0.5rem;">
+                    <label>Your PayPal.me Link or Username:</label>
+                    <input type="text" id="paypalModalInput" class="text-input" placeholder="e.g. https://paypal.me/yourusername or yourusername">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label>Test Sample Amount ($ USD):</label>
+                        <input type="number" id="paypalTestAmount" class="text-input" value="150" min="10">
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
+                    <button type="button" class="btn btn-secondary" id="btnTestOpenPaypal" style="justify-content: center; padding: 0.75rem 1rem; border-color: rgba(245, 158, 11, 0.4); color: #fbbf24; font-size: 0.9rem; font-weight: 700;">
+                        🧪 Test & Open PayPal Checkout (Opens in New Tab)
+                    </button>
+                    <div id="paypalModalStatus" style="font-size: 0.82rem; text-align: center; min-height: 20px;"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btnCancelPaypalModal">Cancel</button>
+                <button class="btn btn-primary" id="btnSavePaypalModal">Save & Make PayPal Default</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
