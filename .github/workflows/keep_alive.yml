@@ -1,0 +1,16 @@
+name: OmniLead 24/7 Keep-Alive
+
+on:
+  schedule:
+    # Run every 10 minutes to keep Render container awake 24/7
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping OmniLead Cloud Health Endpoint
+        run: |
+          echo "Pinging OmniLead Agent on Render..."
+          curl -s -f https://omnilead-agent.onrender.com/health || echo "Ping dispatched"
