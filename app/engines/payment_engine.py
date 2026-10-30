@@ -51,8 +51,8 @@ class PaymentEngine:
             except Exception as e:
                 logger.warning(f"Stripe session creation error: {e}. Falling back to hosted link.")
 
-        # 1. Prioritize PayPal if configured
-        paypal_link = self.paypal_link or settings.PAYPAL_ME_LINK
+        # 1. Prioritize PayPal if configured (always read dynamically from current settings)
+        paypal_link = settings.PAYPAL_ME_LINK or self.paypal_link
         if paypal_link and ("paypal.me" in paypal_link.lower() or not paypal_link.startswith("http")):
             clean_paypal = paypal_link.strip().rstrip("/")
             if not clean_paypal.startswith("http"):

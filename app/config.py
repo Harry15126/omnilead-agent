@@ -63,8 +63,8 @@ class Settings(BaseSettings):
 
     # Payment Integrations
     STRIPE_API_KEY: str = ""
-    STRIPE_PAYMENT_LINK_BASE: str = "https://buy.stripe.com/test_omnilead"
-    PAYPAL_ME_LINK: str = "https://paypal.me/vitalix"
+    STRIPE_PAYMENT_LINK_BASE: str = ""
+    PAYPAL_ME_LINK: str = os.getenv("PAYPAL_ME_LINK", "https://paypal.me/NavdeepSingh641")
 
     # Notifications
     DISCORD_WEBHOOK_URL: str = ""
