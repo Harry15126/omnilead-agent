@@ -33,9 +33,9 @@ class Settings(BaseSettings):
     )
 
     # Server Configuration
-    HOST: str = "127.0.0.1"
-    PORT: int = 8000
-    DEBUG: bool = True
+    HOST: str = os.getenv("HOST", "0.0.0.0")
+    PORT: int = int(os.getenv("PORT", "8000"))
+    DEBUG: bool = False
     SECRET_KEY: str = "omnilead-secret-key-change-in-production-2026"
 
     # Autonomous Guardrails
